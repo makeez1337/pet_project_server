@@ -49,14 +49,15 @@ class UserController {
       const { id } = req.params;
       const { ...fields } = req.body;
 
-      const updateUser = await userService.updateUserById(id, fields);
+      const isUserUpdated = await userService.updateUserById(id, fields);
 
-      if (updateUser[0] === 1) {
-        const user = await userService.findUserById(id);
-        res.json(user);
-      } else {
+      if (!isUserUpdated[0]) {
         next(new ErrorHandler('You are sending incorrect fields'));
+        return;
       }
+
+      const user = await userService.findUserById(id);
+      res.json(user);
     } catch (e) {
       next(e);
     }
