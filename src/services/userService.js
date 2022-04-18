@@ -10,7 +10,7 @@ class UserService {
   async createUser(fields) {
     const { firstName, lastName, email, password, role, age } = fields;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await this.hashPassword(password);
 
     return User.create({ firstName, lastName, email, password: hashedPassword, role, age });
   }
@@ -25,6 +25,10 @@ class UserService {
 
   async findUserById(id) {
     return User.findOne({ where: { id } });
+  }
+
+  async hashPassword(password) {
+    return bcrypt.hash(password, 10);
   }
 }
 
