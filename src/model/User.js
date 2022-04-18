@@ -1,25 +1,47 @@
-const {Sequelize, DataTypes} = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('postgres://localhost:5432/owu');
+const { sequelize } = require('../db/instanse');
 
-const User = sequelize.define('User', {
-    // Model attributes are defined here
+const User = sequelize.define(
+  'User',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     firstName: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     lastName: {
-        type: DataTypes.STRING
-        // allowNull defaults to true
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-
-}, {
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
     sequelize,
-    timestamps: true
-});
-
-User.sync();
+    timestamps: true,
+  },
+);
 
 module.exports = {
-    User
+  User,
 };
