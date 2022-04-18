@@ -2,14 +2,15 @@
   "name": "pet_project_server",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch ./src"
+    "start": "nodemon ./src/app.js --watch ./src"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
@@ -20,6 +21,7 @@
     "@types/node": "^17.0.24",
     "@types/sequelize": "^4.28.11",
     "nodemon": "^2.0.15",
+    "prettier": "2.6.2",
     "sequelize-cli": "^6.4.1"
   }
 }
