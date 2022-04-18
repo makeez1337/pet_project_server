@@ -8,7 +8,19 @@ class UserService {
   async createUser(fields) {
     const { firstName, lastName, email, password, role, age } = fields;
 
-    return  User.create({ firstName, lastName, email, password, role, age });
+    return User.create({ firstName, lastName, email, password, role, age });
+  }
+
+  async deleteById(id) {
+    await User.destroy({ where: { id } });
+  }
+
+  async updateUserById(id, fields) {
+    return User.update({ ...fields }, { where: { id } });
+  }
+
+  async findUserById(id) {
+    return User.findOne({ where: { id } });
   }
 }
 
