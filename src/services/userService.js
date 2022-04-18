@@ -4,7 +4,11 @@ const { User } = require('../model/User');
 
 class UserService {
   async findAllUsers() {
-    return User.findAll();
+    return User.findAll({
+      attributes: {
+        exclude: ['password'],
+      },
+    });
   }
 
   async createUser(fields) {
