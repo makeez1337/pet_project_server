@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const { User } = require('../model/User');
 
 class UserService {
@@ -8,7 +10,9 @@ class UserService {
   async createUser(fields) {
     const { firstName, lastName, email, password, role, age } = fields;
 
-    return User.create({ firstName, lastName, email, password, role, age });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    return User.create({ firstName, lastName, email, password: hashedPassword, role, age });
   }
 
   async deleteById(id) {
