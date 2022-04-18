@@ -1,0 +1,17 @@
+# generated files
+**/generated/**/*.*
+package-lock.json
+
+
+# docker files
+/docker-compose.yml
+/docker-compose.*.yml
+
+# compiled output
+/dist
+/dist-server
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
