@@ -1,10 +1,10 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize("owu", "postgres", null, {
-    host: "localhost",
-    dialect: "postgres"
+const sequelize = new Sequelize('owu', 'postgres', null, {
+  host: 'localhost',
+  dialect: 'postgres',
 });
 
 module.exports = {
-    sequelize
-}
+  sequelize,
+};
