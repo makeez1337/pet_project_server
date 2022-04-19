@@ -14,7 +14,13 @@ class TokenService {
     };
   }
 
-  verifyToken(token, secretKey) {
+  verifyToken(token, secretKey = 'access') {
+    secretKey = process.env.SECRET_ACCESS_KEY;
+
+    if (secretKey === 'refresh') {
+      secretKey = process.env.SECRET_REFRESH_KEY;
+    }
+
     return jwt.verify(token, secretKey);
   }
 }
