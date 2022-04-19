@@ -26,7 +26,7 @@ const Token = sequelize.define('Token', {
   },
 });
 
-User.hasMany(Token, { as: 'userId', foreignKey: 'userId' });
+User.hasOne(Token, { as: 'tokenPair', foreignKey: 'userId' });
 
 module.exports = {
   Token,
