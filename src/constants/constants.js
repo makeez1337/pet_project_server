@@ -1,5 +1,7 @@
 const constants = {
-  EMAIL_REGEXP: /^\S+@\S+\.\S+$/,
+  emailRegexp: /^\S+@\S+\.\S+$/,
+
+  saltOrRounds: 10,
 };
 
 module.exports = {
