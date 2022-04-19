@@ -42,6 +42,13 @@ class AuthController {
       next(e);
     }
   }
+
+  async logout(req, res, next) {
+    const { id } = req.user;
+
+    await tokenService.deleteTokenPairByParams({ userId: id });
+    res.json('OK');
+  }
 }
 
 module.exports = {
