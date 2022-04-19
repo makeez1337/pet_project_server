@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 
 const { User } = require('../model/User');
+const { constants } = require('../constants/constants');
 
 class UserService {
   async findAllUsers() {
@@ -32,7 +33,7 @@ class UserService {
   }
 
   async hashPassword(password) {
-    return bcrypt.hash(password, 10);
+    return bcrypt.hash(password, constants.saltOrRounds);
   }
 
   async comparePassword(password, hashedPassword) {
