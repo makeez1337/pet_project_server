@@ -36,7 +36,7 @@ class TokenService {
       userToken.refreshToken = refreshToken;
       userToken.accessToken = accessToken;
 
-      return Token.create({ accessToken, refreshToken, userId });
+      return Token.update({ accessToken, refreshToken }, { where: { userId } });
     }
 
     return Token.create({ accessToken, refreshToken, userId });
