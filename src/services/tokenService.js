@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { Token } = require('../model/Token');
 
 class TokenService {
   generateTokenPair(payload) {
@@ -22,6 +23,23 @@ class TokenService {
     }
 
     return jwt.verify(token, secretKey);
+  }
+
+  async findTokenByParams(params) {
+    return Token.findOne({ where: { ...params } });
+  }
+
+  async saveToken(accessToken, refreshToken, userId) {
+    const userToken = await this.findTokenByParams({ userId });
+
+    if (userToken) {
+      userToken.refreshToken = refreshToken;
+      userToken.accessToken = accessToken;
+
+      return Token.create({ accessToken, refreshToken, userId });
+    }
+
+    return Token.create({ accessToken, refreshToken, userId });
   }
 }
 
