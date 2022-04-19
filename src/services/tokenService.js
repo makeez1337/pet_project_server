@@ -15,7 +15,7 @@ class TokenService {
     };
   }
 
-  verifyToken(token, secretKey = 'access') {
+  async verifyToken(token, secretKey = 'access') {
     secretKey = process.env.SECRET_ACCESS_KEY;
 
     if (secretKey === 'refresh') {
