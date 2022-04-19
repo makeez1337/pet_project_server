@@ -41,6 +41,10 @@ class TokenService {
 
     return Token.create({ accessToken, refreshToken, userId });
   }
+
+  async deleteTokenPairByParams(params) {
+    await Token.destroy({ where: { ...params } });
+  }
 }
 
 module.exports = {
