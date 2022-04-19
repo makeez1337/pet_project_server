@@ -31,7 +31,7 @@ class AuthController {
       }
 
       const { accessToken, refreshToken } = tokenService.generateTokenPair({ userId: id, userEmail: email });
-      await Token.create({ accessToken, refreshToken, userId: id });
+      await tokenService.saveToken(accessToken, refreshToken, id);
 
       res.json({
         accessToken,
