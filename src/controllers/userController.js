@@ -56,7 +56,7 @@ class UserController {
         return;
       }
 
-      const user = await userService.findUserById(id);
+      const user = await userService.findUserByParams({ id });
       res.json(user);
     } catch (e) {
       next(e);
