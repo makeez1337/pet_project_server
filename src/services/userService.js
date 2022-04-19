@@ -27,8 +27,8 @@ class UserService {
     return User.update({ ...fields }, { where: { id } });
   }
 
-  async findUserById(id) {
-    return User.findOne({ where: { id } });
+  async findUserByParams(params) {
+    return User.findOne({ where: { ...params } });
   }
 
   async hashPassword(password) {
