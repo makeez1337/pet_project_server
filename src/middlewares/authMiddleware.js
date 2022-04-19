@@ -1,5 +1,6 @@
 const { authValidator } = require('../validators/auth/authValidator');
 const { ErrorHandler } = require('../error/errorHandler');
+const { userService } = require('../services/userService');
 
 class AuthMiddleware {
   isRegistrationValid(req, res, next) {
@@ -32,6 +33,20 @@ class AuthMiddleware {
     } catch (e) {
       next(e);
     }
+  }
+
+  async isUserExists(req, res, next) {
+    const { email } = req.body;
+
+    const user = await userService.findUserByParams({ email });
+
+    if (!user) {
+      next(new ErrorHandler('Such user doesnt exists'));
+      return;
+    }
+
+    req.user = user.dataValues;
+    next();
   }
 }
 
