@@ -17,6 +17,22 @@ class AuthMiddleware {
       next(e);
     }
   }
+
+  isLoginValid(req, res, next) {
+    try {
+      const { error, value } = authValidator.login.validate(req.body);
+
+      if (error) {
+        next(new ErrorHandler(error.details[0].message));
+        return;
+      }
+
+      req.body = value;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
