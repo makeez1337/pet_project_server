@@ -12,11 +12,11 @@ class UserController {
     }
   }
 
-  async findUserById(req, res, next) {
+  async findUserByParams(req, res, next) {
     try {
       const { id } = req.params;
 
-      const user = await userService.findUserById(id);
+      const user = await userService.findUserByParams({ id });
       res.json(user);
     } catch (e) {
       next(e);
