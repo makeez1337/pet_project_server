@@ -45,8 +45,9 @@ class AuthController {
 
   async logout(req, res, next) {
     const { id } = req.user;
+    const accessToken = req.accessToken;
 
-    await tokenService.deleteTokenPairByParams({ userId: id });
+    await tokenService.deleteTokenPairByParams({ userId: id, accessToken });
     res.json('OK');
   }
 }
