@@ -75,6 +75,7 @@ class AuthMiddleware {
       }
 
       req.user = userFromToken;
+      req.accessToken = accessToken;
       next();
     } catch (e) {
       next(e);
