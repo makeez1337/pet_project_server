@@ -32,13 +32,6 @@ class TokenService {
   async saveToken(accessToken, refreshToken, userId) {
     const userToken = await this.findTokenByParams({ userId });
 
-    if (userToken) {
-      userToken.refreshToken = refreshToken;
-      userToken.accessToken = accessToken;
-
-      return Token.update({ accessToken, refreshToken }, { where: { userId } });
-    }
-
     return Token.create({ accessToken, refreshToken, userId });
   }
 
