@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/instanse');
 const { User } = require('./User');
 
-const Token = sequelize.define('Token', {
+const Token = sequelize.define('token', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -26,7 +26,8 @@ const Token = sequelize.define('Token', {
   },
 });
 
-User.hasOne(Token, { as: 'tokenPair', foreignKey: 'userId' });
+User.hasMany(Token, { as: 'tokenPair', foreignKey: { name: 'userId' }, onDelete: 'CASCADE' });
+Token.belongsTo(User);
 
 module.exports = {
   Token,
