@@ -4,6 +4,7 @@ const { userService } = require('../services/userService');
 const { Token } = require('../model/Token');
 const { tokenService } = require('../services/tokenService');
 const { ErrorHandler } = require('../error/errorHandler');
+const UserDto = require('../dto/userDto');
 
 class AuthController {
   async registration(req, res, next) {
@@ -22,11 +23,12 @@ class AuthController {
     try {
       const { password: hashedPassword, id } = req.user;
       const { email, password } = req.body;
+      const user = new UserDto(req.user);
 
       const isPasswordEqual = await userService.comparePassword(password, hashedPassword);
 
       if (!isPasswordEqual) {
-        next(new ErrorHandler('Email or password is not valid'));
+        next(new ErrorHandler('Email or password is not valid',401));
         return;
       }
 
@@ -36,7 +38,7 @@ class AuthController {
       res.json({
         accessToken,
         refreshToken,
-        user: req.user,
+        user,
       });
     } catch (e) {
       next(e);
