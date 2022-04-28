@@ -5,6 +5,7 @@ const { Token } = require('../model/Token');
 const { tokenService } = require('../services/tokenService');
 const { ErrorHandler } = require('../error/errorHandler');
 const UserDto = require('../dto/userDto');
+const TokenDto = require('../dto/tokenDto');
 
 class AuthController {
   async registration(req, res, next) {
@@ -62,10 +63,13 @@ class AuthController {
   async refresh(req, res, next) {
     const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: req.refreshToken });
     const { email, id } = req.user;
+    const user = new UserDto(req.user);
 
     const { refreshToken, accessToken } = tokenService.generateTokenPair({ userEmail: email, userId: id });
-    const userData = await tokenService.saveToken(accessToken, refreshToken, id);
-    res.json({ ...userData });
+    const tokensPair = await tokenService.saveToken(accessToken, refreshToken, id);
+    const normalizedTokens = new TokenDto({ ...tokensPair });
+
+    res.json({ ...normalizedTokens, user });
   }
 }
 
