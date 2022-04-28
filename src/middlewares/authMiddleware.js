@@ -61,7 +61,6 @@ class AuthMiddleware {
       }
 
       const { userEmail } = await tokenService.verifyToken(accessToken);
-
       const userFromToken = await userService.findUserByParams({ email: userEmail });
       const tokenPair = await tokenService.findTokenByParams({ accessToken });
 
@@ -80,6 +79,31 @@ class AuthMiddleware {
     } catch (e) {
       next(e);
     }
+  }
+
+  async checkRefreshToken(req, res, next) {
+    const refreshToken = req.get(constants.headerAuthorization);
+
+    if (!refreshToken) {
+      next(new ErrorHandler('Token is not valid', 401));
+    }
+
+    const { userEmail } = await tokenService.verifyToken(refreshToken, 'refresh');
+    const userFromToken = await userService.findUserByParams({ email: userEmail });
+    const tokenPair = await tokenService.findTokenByParams({ refreshToken });
+
+    if (!userFromToken) {
+      next(new ErrorHandler('Token is not valid', 401));
+      return;
+    }
+
+    if (!tokenPair) {
+      next(new ErrorHandler('Token is not valid', 401));
+    }
+
+    req.user = userFromToken;
+    req.refreshToken = refreshToken;
+    next();
   }
 }
 
