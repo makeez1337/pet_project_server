@@ -11,9 +11,15 @@ class AuthController {
     try {
       const { id, email } = await userService.createUser(req.body);
       const { accessToken, refreshToken } = tokenService.generateTokenPair({ userId: id, userEmail: email });
+      const user = new UserDto(req.body);
 
       const userTokenData = await Token.create({ accessToken, refreshToken, userId: id });
-      res.json(userTokenData.dataValues);
+
+      res.json({
+        accessToken,
+        refreshToken,
+        user,
+      });
     } catch (e) {
       next(e);
     }
