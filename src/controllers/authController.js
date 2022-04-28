@@ -28,7 +28,7 @@ class AuthController {
       const isPasswordEqual = await userService.comparePassword(password, hashedPassword);
 
       if (!isPasswordEqual) {
-        next(new ErrorHandler('Email or password is not valid',401));
+        next(new ErrorHandler('Email or password is not valid', 401));
         return;
       }
 
@@ -51,6 +51,15 @@ class AuthController {
 
     await tokenService.deleteTokenPairByParams({ userId: id, accessToken });
     res.json('OK');
+  }
+
+  async refresh(req, res, next) {
+    const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: req.refreshToken });
+    const { email, id } = req.user;
+
+    const { refreshToken, accessToken } = tokenService.generateTokenPair({ userEmail: email, userId: id });
+    const userData = await tokenService.saveToken(accessToken, refreshToken, id);
+    res.json({ ...userData });
   }
 }
 
