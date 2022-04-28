@@ -15,10 +15,10 @@ class TokenService {
     };
   }
 
-  async verifyToken(token, secretKey = 'access') {
-    secretKey = process.env.SECRET_ACCESS_KEY;
+  async verifyToken(token, tokenType = 'access') {
+    let secretKey = process.env.SECRET_ACCESS_KEY;
 
-    if (secretKey === 'refresh') {
+    if (tokenType === 'refresh') {
       secretKey = process.env.SECRET_REFRESH_KEY;
     }
 
@@ -36,7 +36,7 @@ class TokenService {
       userToken.accessToken = accessToken;
       userToken.refreshToken = refreshToken;
       userToken.save();
-      return;
+      return { accessToken, refreshToken, userId };
     }
 
     return Token.create({ accessToken, refreshToken, userId });
