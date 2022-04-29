@@ -6,6 +6,7 @@ const { tokenService } = require('../services/tokenService');
 const { ErrorHandler } = require('../error/errorHandler');
 const UserDto = require('../dto/userDto');
 const TokenDto = require('../dto/tokenDto');
+const { constants } = require('../constants/constants');
 
 class AuthController {
   async registration(req, res, next) {
@@ -61,7 +62,8 @@ class AuthController {
   }
 
   async refresh(req, res, next) {
-    const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: req.refreshToken });
+    const refreshTokenFromHeader = req.get(constants.headerAuthorization);
+    const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: refreshTokenFromHeader });
     const { email, id } = req.user;
     const user = new UserDto(req.user);
 
