@@ -82,7 +82,7 @@ class AuthMiddleware {
   }
 
   async checkRefreshToken(req, res, next) {
-    const refreshToken = req.get(constants.headerAuthorization);
+    const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
       next(new ErrorHandler('Token is not valid', 401));
@@ -102,7 +102,6 @@ class AuthMiddleware {
     }
 
     req.user = userFromToken;
-    req.refreshToken = refreshToken;
     next();
   }
 }
