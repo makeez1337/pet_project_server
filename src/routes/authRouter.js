@@ -8,7 +8,7 @@ const router = Router();
 router.post('/registration', authMiddleware.isRegistrationValid, authController.registration);
 router.post('/login', authMiddleware.isLoginValid, authMiddleware.isUserExists, authController.login);
 router.post('/logout', authMiddleware.checkAccessToken, authController.logout);
-router.post('/refresh', authMiddleware.checkRefreshToken, authController.refresh)
+router.get('/refresh', authMiddleware.checkRefreshToken, authController.refresh);
 
 module.exports = {
   authRouter: router,
