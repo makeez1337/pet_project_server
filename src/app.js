@@ -16,7 +16,10 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:3000',
+}));
 app.use(apiRouter);
 
 app.listen(PORT, async () => {
