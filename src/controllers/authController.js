@@ -17,6 +17,7 @@ class AuthController {
 
       const userTokenData = await Token.create({ accessToken, refreshToken, userId: id });
 
+      res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
       res.json({
         accessToken,
         refreshToken,
@@ -42,7 +43,7 @@ class AuthController {
 
       const { accessToken, refreshToken } = tokenService.generateTokenPair({ userId: id, userEmail: email });
       await tokenService.saveToken(accessToken, refreshToken, id);
-
+      res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
       res.json({
         accessToken,
         refreshToken,
@@ -58,12 +59,13 @@ class AuthController {
     const accessToken = req.accessToken;
 
     await tokenService.deleteTokenPairByParams({ userId: id, accessToken });
+    res.clearCookie('refreshToken');
     res.json('OK');
   }
 
   async refresh(req, res, next) {
-    const refreshTokenFromHeader = req.get(constants.headerAuthorization);
-    const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: refreshTokenFromHeader });
+    const { refreshToken: refreshTokenFromCookie } = req.cookies;
+    const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: refreshTokenFromCookie });
     const { email, id } = req.user;
     const user = new UserDto(req.user);
 
@@ -71,6 +73,7 @@ class AuthController {
     const tokensPair = await tokenService.saveToken(accessToken, refreshToken, id);
     const normalizedTokens = new TokenDto({ ...tokensPair });
 
+    res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
     res.json({ ...normalizedTokens, user });
   }
 }
