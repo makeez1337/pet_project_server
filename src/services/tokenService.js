@@ -35,7 +35,9 @@ class TokenService {
     if (userToken) {
       userToken.accessToken = accessToken;
       userToken.refreshToken = refreshToken;
-      userToken.save({});
+
+      await userToken.save({});
+
       return { accessToken, refreshToken, userId };
     }
 
