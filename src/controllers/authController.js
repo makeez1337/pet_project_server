@@ -64,16 +64,27 @@ class AuthController {
   }
 
   async refresh(req, res, next) {
-    const { refreshToken: refreshTokenFromCookie } = req.cookies;
-    const { email, id } = req.user;
-    const user = new UserDto(req.user);
+    try {
+      const { refreshToken: refreshTokenFromCookie } = req.cookies;
+      const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: refreshTokenFromCookie });
 
-    const { refreshToken, accessToken } = tokenService.generateTokenPair({ userEmail: email, userId: id });
-    const tokensPair = await tokenService.saveToken(accessToken, refreshToken, id);
-    const normalizedTokens = new TokenDto({ ...tokensPair });
+      if (!tokenId) {
+        next(new ErrorHandler('Token is not valid', 401));
+      }
 
-    res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
-    res.json({ ...normalizedTokens, user });
+      const { email, id } = req.user;
+
+      const user = new UserDto(req.user);
+
+      const { refreshToken, accessToken } = tokenService.generateTokenPair({ userEmail: email, userId: id });
+      const tokensPair = await tokenService.saveToken(accessToken, refreshToken, id);
+      const normalizedTokens = new TokenDto({ ...tokensPair });
+
+      res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: process.env.MAX_AGE });
+      res.json({ ...normalizedTokens, user });
+    } catch (e) {
+      next(e);
+    }
   }
 }
 
