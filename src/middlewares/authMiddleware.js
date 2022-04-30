@@ -72,6 +72,7 @@ class AuthMiddleware {
       const tokenPair = await tokenService.findTokenByParams({ accessToken });
       if (!tokenPair) {
         next(new ErrorHandler('Token is not valid', 401));
+        return;
       }
 
       req.user = userFromToken;
@@ -79,10 +80,11 @@ class AuthMiddleware {
       next();
     } catch (e) {
       if (e.message === 'jwt expired') {
-        return next({
+        next({
           status: 401,
           message: e.message,
         });
+        return;
       }
       next(e);
     }
@@ -93,6 +95,7 @@ class AuthMiddleware {
 
     if (!refreshToken) {
       next(new ErrorHandler('Token is not valid', 401));
+      return;
     }
 
     const { userEmail } = await tokenService.verifyToken(refreshToken, 'refresh');
@@ -106,6 +109,7 @@ class AuthMiddleware {
 
     if (!tokenPair) {
       next(new ErrorHandler('Token is not valid', 401));
+      return;
     }
 
     req.user = userFromToken;
