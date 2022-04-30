@@ -80,7 +80,7 @@ class AuthController {
       const tokensPair = await tokenService.saveToken(accessToken, refreshToken, id);
       const normalizedTokens = new TokenDto({ ...tokensPair });
 
-      res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: process.env.MAX_AGE });
+      res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
       res.json({ ...normalizedTokens, user });
     } catch (e) {
       next(e);
