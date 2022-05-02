@@ -65,15 +65,6 @@ class AuthController {
 
   async refresh(req, res, next) {
     try {
-      const { refreshToken: refreshTokenFromCookie } = req.cookies;
-
-      const { id: tokenId } = await tokenService.findTokenByParams({ refreshToken: refreshTokenFromCookie });
-
-      if (!tokenId) {
-        next(new ErrorHandler('Token is not valid', 401));
-        return;
-      }
-
       const { email, id } = req.user;
 
       const user = new UserDto(req.user);
