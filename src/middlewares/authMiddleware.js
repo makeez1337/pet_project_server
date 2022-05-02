@@ -100,14 +100,8 @@ class AuthMiddleware {
 
     const { userEmail } = await tokenService.verifyToken(refreshToken, 'refresh');
     const userFromToken = await userService.findUserByParams({ email: userEmail });
-    const tokenPair = await tokenService.findTokenByParams({ refreshToken });
 
     if (!userFromToken) {
-      next(new ErrorHandler('Token is not valid', 401));
-      return;
-    }
-
-    if (!tokenPair) {
       next(new ErrorHandler('Token is not valid', 401));
       return;
     }
