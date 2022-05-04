@@ -43,7 +43,7 @@ class AuthMiddleware {
     const user = await userService.findUserByParams({ email });
 
     if (!user) {
-      next(new ErrorHandler('Such user doesnt exists'));
+      next(new ErrorHandler('Email or password is not valid', 401));
       return;
     }
 
