@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
 
+const { constants } = require('../constants/constants');
 const { userService } = require('../services/userService');
-const { Token } = require('../models/Token');
+const { Token } = require('../models');
 const { tokenService } = require('../services/tokenService');
 const { ErrorHandler } = require('../error/errorHandler');
 const UserDto = require('../dto/userDto');
 const TokenDto = require('../dto/tokenDto');
-const { constants } = require('../constants/constants');
+const { basketService } = require('../services/basketService');
 
 class AuthController {
   async registration(req, res, next) {
@@ -16,6 +17,7 @@ class AuthController {
       const user = new UserDto(req.body);
 
       const userTokenData = await Token.create({ accessToken, refreshToken, userId: id });
+      await basketService.createBasket(id);
 
       res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
       res.json({
