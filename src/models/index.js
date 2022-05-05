@@ -1,5 +1,9 @@
+const { User } = require('./User');
+const { Basket } = require('./Basket');
+const { Token } = require('./Token');
+
 module.exports = {
-  User: require('./User'),
-  Token: require('./Token'),
-  Basket: require('./Basket'),
+  User,
+  Token,
+  Basket,
 };
