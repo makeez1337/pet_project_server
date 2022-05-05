@@ -18,8 +18,8 @@ const Basket = sequelize.define('basket', {
   },
 });
 
-Basket.belongsTo(User, { foreignKey: 'userId' });
-User.hasOne(Basket);
+User.hasOne(Basket, { foreignKey: 'userId', unique: true, onDelete: 'CASCADE' });
+Basket.belongsTo(User);
 
 module.exports = {
   Basket,
