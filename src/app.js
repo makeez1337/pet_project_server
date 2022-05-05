@@ -1,9 +1,9 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const { User } = require('./models/User');
+const { Basket, Token, User } = require('./models');
 const { apiRouter } = require('./routes/apiRouter');
 const { sequelize } = require('./db/instanse');
 const cookieParser = require('cookie-parser');
@@ -16,10 +16,12 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-  credentials: true,
-  origin: 'http://localhost:3000',
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+  }),
+);
 app.use(apiRouter);
 
 app.listen(PORT, async () => {
