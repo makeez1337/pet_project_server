@@ -3,7 +3,7 @@ const cors = require('cors');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const { Basket, Token, User } = require('./models');
+const { Basket, Token, User, BasketDevice, Brand, Phone } = require('./models');
 const { apiRouter } = require('./routes/apiRouter');
 const { sequelize } = require('./db/instanse');
 const cookieParser = require('cookie-parser');
