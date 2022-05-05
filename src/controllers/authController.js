@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const { userService } = require('../services/userService');
-const { Token } = require('../model/Token');
+const { Token } = require('../models/Token');
 const { tokenService } = require('../services/tokenService');
 const { ErrorHandler } = require('../error/errorHandler');
 const UserDto = require('../dto/userDto');

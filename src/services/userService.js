@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const { User } = require('../model/User');
+const { User } = require('../models/User');
 const { constants } = require('../constants/constants');
 
 class UserService {
