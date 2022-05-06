@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(express.json());
+app.use('/phoneImg',express.static('src/static/uploads'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
