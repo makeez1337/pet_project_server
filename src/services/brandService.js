@@ -8,6 +8,10 @@ class BrandService {
   async getBrands() {
     return Brand.findAll();
   }
+
+  async deleteBrandById(id) {
+    await Brand.destroy({ where: { id } })
+  }
 }
 
 module.exports = {

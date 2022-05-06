@@ -21,6 +21,17 @@ class BrandController {
     }
   }
 
+  async deleteBrandById(req, res, next) {
+    try {
+      const { id } = req.body;
+
+      await brandService.deleteBrandById(id);
+      res.json('OK');
+    } catch (e) {
+      next(e);
+    }
+  }
+
 }
 
 module.exports = {
