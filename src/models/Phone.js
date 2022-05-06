@@ -2,6 +2,8 @@ const { DataTypes } = require('sequelize');
 
 const { sequelize } = require('../db/instanse');
 const { Brand } = require('./Brand');
+const { Memory } = require('./Memory');
+const { Ram } = require('./Ram');
 
 const Phone = sequelize.define('phone', {
   id: {
@@ -17,13 +19,21 @@ const Phone = sequelize.define('phone', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  memory: {
+  memoryId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Memory,
+      key: 'id',
+    },
   },
-  ram: {
+  ramId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Ram,
+      key: 'id',
+    },
   },
   camera: {
     type: DataTypes.INTEGER,
@@ -52,6 +62,12 @@ const Phone = sequelize.define('phone', {
 
 Brand.hasMany(Phone, { foreignKey: 'brandId', onDelete: 'CASCADE' });
 Phone.belongsTo(Brand);
+
+Memory.hasMany(Phone, { foreignKey: 'memoryId', onDelete: 'CASCADE' });
+Phone.belongsTo(Memory);
+
+Ram.hasMany(Phone, { foreignKey: 'ramId', onDelete: 'CASCADE' });
+Phone.belongsTo(Ram);
 
 module.exports = {
   Phone,
