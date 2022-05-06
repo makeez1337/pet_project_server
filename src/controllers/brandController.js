@@ -12,6 +12,15 @@ class BrandController {
     }
   }
 
+  async getBrands(req, res, next) {
+    try {
+      const brands = await brandService.getBrands();
+      res.json(brands);
+    } catch (e) {
+      next(e);
+    }
+  }
+
 }
 
 module.exports = {
