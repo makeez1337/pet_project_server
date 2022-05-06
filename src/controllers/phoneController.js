@@ -1,10 +1,16 @@
 const { phoneService } = require('../services/phoneService');
+const { ErrorHandler } = require('../error/errorHandler');
 
 class PhoneController {
   async createPhone(req, res, next) {
     const { name, description, memory, ram, processor, camera, price, brandId } = req.body;
-    const imagePath = req.file.path;
 
+    if (!req.file) {
+      next(new ErrorHandler('You have to download the image'));
+      return;
+    }
+
+    const imagePath = req.file.path;
 
     const phone = await phoneService.createPhone({
       name,
