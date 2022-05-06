@@ -2,7 +2,9 @@ const { phoneService } = require('../services/phoneService');
 
 class PhoneController {
   async createPhone(req, res, next) {
-    const { name, description, memory, ram, processor, camera, price, img, brandId } = req.body;
+    const { name, description, memory, ram, processor, camera, price, brandId } = req.body;
+    const imagePath = req.file.path;
+
 
     const phone = await phoneService.createPhone({
       name,
@@ -12,7 +14,7 @@ class PhoneController {
       processor,
       camera,
       price,
-      img,
+      img: imagePath,
       brandId,
     });
     res.json(phone);
