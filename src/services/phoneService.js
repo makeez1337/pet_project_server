@@ -12,6 +12,25 @@ class PhoneService {
   async deleteById(id) {
     await Phone.destroy({ where: { id } });
   }
+
+  async getPhonesPagination(limit, page, filterObj) {
+    const isFilterObj = Object.keys(filterObj).length;
+
+    if (isFilterObj) {
+      return Phone.findAndCountAll({
+        limit,
+        offset: (page - 1) * limit,
+        where: {
+          ...filterObj,
+        },
+      });
+    }
+
+    return Phone.findAndCountAll({
+      limit,
+      offset: (page - 1) * limit,
+    });
+  }
 }
 
 module.exports = {
