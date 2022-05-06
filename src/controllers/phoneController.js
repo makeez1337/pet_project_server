@@ -37,6 +37,22 @@ class PhoneController {
       next(e);
     }
   }
+
+  async getPhonesPagination(req, res, next) {
+    try {
+      const { limit, page, ...filterObj } = req.body;
+
+      const { count, rows } = await phoneService.getPhonesPagination(limit, page, filterObj);
+      res.json({
+        page,
+        perPage: limit,
+        count,
+        rows,
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
