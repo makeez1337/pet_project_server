@@ -3,7 +3,6 @@ const cors = require('cors');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const { Basket, Token, User, BasketDevice, Brand, Phone } = require('./models');
 const { apiRouter } = require('./routes/apiRouter');
 const { sequelize } = require('./db/instanse');
 const cookieParser = require('cookie-parser');
@@ -11,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(express.json());
-app.use('/phoneImg',express.static('src/static/uploads'));
+app.use('/phoneImg', express.static('src/static/uploads'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
