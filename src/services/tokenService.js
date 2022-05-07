@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { Token } = require('../models');
+const { ErrorHandler } = require('../error/errorHandler');
 
 class TokenService {
   generateTokenPair(payload) {
@@ -16,13 +17,17 @@ class TokenService {
   }
 
   async verifyToken(token, tokenType = 'access') {
-    let secretKey = process.env.SECRET_ACCESS_KEY;
+    try {
+      let secretKey = process.env.SECRET_ACCESS_KEY;
 
-    if (tokenType === 'refresh') {
-      secretKey = process.env.SECRET_REFRESH_KEY;
+      if (tokenType === 'refresh') {
+        secretKey = process.env.SECRET_REFRESH_KEY;
+      }
+
+      return jwt.verify(token, secretKey);
+    } catch (e) {
+      throw new ErrorHandler(e.message, 401);
     }
-
-    return jwt.verify(token, secretKey);
   }
 
   async findTokenByParams(params) {
