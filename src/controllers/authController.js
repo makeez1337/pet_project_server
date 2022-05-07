@@ -1,10 +1,6 @@
-const jwt = require('jsonwebtoken');
-
-const { constants } = require('../constants/constants');
 const { userService } = require('../services/userService');
 const { Token } = require('../models');
 const { tokenService } = require('../services/tokenService');
-const { ErrorHandler } = require('../error/errorHandler');
 const UserDto = require('../dto/userDto');
 const TokenDto = require('../dto/tokenDto');
 const { basketService } = require('../services/basketService');
@@ -36,15 +32,11 @@ class AuthController {
       const { email, password } = req.body;
       const user = new UserDto(req.user);
 
-      const isPasswordEqual = await userService.comparePassword(password, hashedPassword);
-
-      if (!isPasswordEqual) {
-        next(new ErrorHandler('Email or password is not valid', 401));
-        return;
-      }
+      await userService.comparePassword(password, hashedPassword);
 
       const { accessToken, refreshToken } = tokenService.generateTokenPair({ userId: id, userEmail: email });
       await tokenService.saveToken(accessToken, refreshToken, id);
+
       res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
       res.json({
         accessToken,
@@ -61,6 +53,7 @@ class AuthController {
     const accessToken = req.accessToken;
 
     await tokenService.deleteTokenPairByParams({ userId: id, accessToken });
+
     res.clearCookie('refreshToken');
     res.json('OK');
   }
