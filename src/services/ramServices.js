@@ -1,8 +1,12 @@
 const { Ram } = require('../models');
 
 class RamServices {
-  async createRam(ram) {
+  createRam(ram) {
     return Ram.create({ ram });
+  }
+
+  getAll() {
+    return Ram.findAll();
   }
 }
 
