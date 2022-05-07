@@ -1,4 +1,6 @@
 const { ramServices } = require('../services/ramServices');
+const { memoryController } = require('./memoryController');
+const { memoryService } = require('../services/memoryService');
 
 class RamController {
   async createRam(req, res, next) {
@@ -6,6 +8,12 @@ class RamController {
 
     const response = await ramServices.createRam(ram);
     res.json(response);
+  }
+
+  async getAll(req, res, next) {
+    const memory = await memoryService.getAll();
+
+    res.json(memory);
   }
 }
 
