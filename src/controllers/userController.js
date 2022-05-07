@@ -17,6 +17,7 @@ class UserController {
       const { id } = req.params;
 
       const user = await userService.findUserByParams({ id });
+
       res.json(user);
     } catch (e) {
       next(e);
@@ -38,6 +39,7 @@ class UserController {
       const { id } = req.params;
 
       await userService.deleteById(id);
+
       res.json(`User with id:${id} was deleted successfully`);
     } catch (e) {
       next(e);
