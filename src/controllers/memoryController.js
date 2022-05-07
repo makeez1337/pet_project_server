@@ -5,6 +5,7 @@ class MemoryController {
     const { memory } = req.body;
 
     const response = await memoryService.createMemory(memory);
+
     res.json(response);
   }
 
