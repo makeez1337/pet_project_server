@@ -79,13 +79,6 @@ class AuthMiddleware {
       req.accessToken = accessToken;
       next();
     } catch (e) {
-      if (e.message === 'jwt expired') {
-        next({
-          status: 401,
-          message: e.message,
-        });
-        return;
-      }
       next(e);
     }
   }
