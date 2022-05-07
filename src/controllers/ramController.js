@@ -11,9 +11,9 @@ class RamController {
   }
 
   async getAll(req, res, next) {
-    const memory = await memoryService.getAll();
+    const ram = await ramServices.getAll();
 
-    res.json(memory);
+    res.json(ram);
   }
 }
 
