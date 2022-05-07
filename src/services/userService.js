@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 const { User } = require('../models');
 const { constants } = require('../constants/constants');
+const { ErrorHandler } = require('../error/errorHandler');
 
 class UserService {
   async findAllUsers() {
@@ -32,12 +33,17 @@ class UserService {
     return User.findOne({ where: { ...params } });
   }
 
-  async hashPassword(password) {
+  hashPassword(password) {
     return bcrypt.hash(password, constants.saltOrRounds);
   }
 
+  // todo: create password service (Single responsibility principle)
   async comparePassword(password, hashedPassword) {
-    return bcrypt.compare(password, hashedPassword);
+    const isPasswordEqual = bcrypt.compare(password, hashedPassword);
+
+    if (!isPasswordEqual) {
+      throw new ErrorHandler('Email or password is not valid', 401);
+    }
   }
 }
 
