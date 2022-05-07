@@ -14,7 +14,7 @@ class PhoneService {
   }
 
   async getPhonesPagination(limit, page, filterObj) {
-    const isFilterObj = Object.keys(filterObj).length;
+    const isFilterObj = Object.keys({ ...filterObj }).length;
 
     if (isFilterObj) {
       return Phone.findAndCountAll({
@@ -30,6 +30,24 @@ class PhoneService {
       limit,
       offset: (page - 1) * limit,
     });
+  }
+
+  generateQueryFilter({ ramId, memoryId, brandId }) {
+    const filterQuery = {};
+    
+    if (ramId) {
+      filterQuery.ramId = ramId;
+    }
+
+    if (memoryId) {
+      filterQuery.memoryId = memoryId;
+    }
+
+    if (brandId) {
+      filterQuery.brandId = brandId;
+    }
+    
+    return filterQuery;
   }
 }
 
