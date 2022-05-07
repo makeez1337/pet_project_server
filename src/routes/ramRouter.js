@@ -1,4 +1,5 @@
 const { Router } = require('express');
+
 const { ramController } = require('../controllers/ramController');
 
 const router = Router();
