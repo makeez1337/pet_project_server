@@ -28,8 +28,20 @@ class PhoneController {
 
   async getAll(req, res, next) {
     try {
-      const phones = await phoneService.getAll();
-      res.json(phones);
+      const { page } = req.query;
+
+      const filterQuery = phoneService.generateQueryFilter(req.query);
+
+      const { rows, count } = await phoneService.getPhonesPagination(10, page, { ...filterQuery });
+      const perPage = rows.length;
+
+      res.json({
+        page: Number(page),
+        perPage,
+        count,
+        rows,
+        totalPages: count/perPage ,
+      });
     } catch (e) {
       next(e);
     }
