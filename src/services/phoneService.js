@@ -16,37 +16,37 @@ class PhoneService {
   async getPhonesPagination(limit, page, filterObj) {
     const isFilterObj = Object.keys({ ...filterObj }).length;
 
-    if (isFilterObj) {
+    if (!isFilterObj) {
       return Phone.findAndCountAll({
         limit,
         offset: (page - 1) * limit,
-        where: {
-          ...filterObj,
-        },
       });
     }
 
     return Phone.findAndCountAll({
       limit,
       offset: (page - 1) * limit,
+      where: {
+        ...filterObj,
+      },
     });
   }
 
   generateQueryFilter({ ramId, memoryId, brandId }) {
     const filterQuery = {};
-    
+
     if (ramId) {
-      filterQuery.ramId = ramId;
+      filterQuery.ramId = ramId.split(',');
     }
 
     if (memoryId) {
-      filterQuery.memoryId = memoryId;
+      filterQuery.memoryId = memoryId.split(',');
     }
 
     if (brandId) {
-      filterQuery.brandId = brandId;
+      filterQuery.brandId = brandId.split(',');
     }
-    
+
     return filterQuery;
   }
 }
