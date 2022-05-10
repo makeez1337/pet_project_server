@@ -36,13 +36,14 @@ class PhoneController {
 
       const { rows, count } = await phoneService.getPhonesPagination(limit, page, { ...filterQuery });
       const perPage = rows.length;
+      const totalPages = Math.ceil(count / perPage);
 
       res.json({
         page: Number(page),
         perPage,
         count,
         rows,
-        totalPages: count / perPage,
+        totalPages,
       });
     } catch (e) {
       next(e);
