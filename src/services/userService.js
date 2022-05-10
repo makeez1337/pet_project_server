@@ -39,7 +39,7 @@ class UserService {
 
   // todo: create password service (Single responsibility principle)
   async comparePassword(password, hashedPassword) {
-    const isPasswordEqual = bcrypt.compare(password, hashedPassword);
+    const isPasswordEqual = await bcrypt.compare(password, hashedPassword);
 
     if (!isPasswordEqual) {
       throw new ErrorHandler('Email or password is not valid', 401);
