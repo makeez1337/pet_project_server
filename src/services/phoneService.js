@@ -1,4 +1,5 @@
 const { Phone } = require('../models');
+const { Op } = require('sequelize');
 
 class PhoneService {
   async createPhone(details) {
@@ -23,17 +24,25 @@ class PhoneService {
       });
     }
 
+    const { gte, lte, ...newFilterObj } = filterObj;
     return Phone.findAndCountAll({
       limit,
       offset: (page - 1) * limit,
       where: {
-        ...filterObj,
+        ...newFilterObj,
+        price: {
+          [Op.gte]: gte,
+          [Op.lte]: lte,
+        },
       },
     });
   }
 
-  generateQueryFilter({ ramId, memoryId, brandId }) {
+  generateQueryFilter({ ramId, memoryId, brandId, gte, lte }) {
     const filterQuery = {};
+
+    filterQuery.gte = Number(gte) || 0;
+    filterQuery.lte = Number(lte) || 45999;
 
     if (ramId) {
       filterQuery.ramId = ramId.split(',');
