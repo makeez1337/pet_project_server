@@ -1,4 +1,5 @@
 const { Phone } = require('../models');
+
 const { Op } = require('sequelize');
 
 class PhoneService {
