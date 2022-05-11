@@ -5,19 +5,20 @@ const cookieParser = require('cookie-parser');
 
 const { appConfig } = require('./config');
 const { apiRouter } = require('./routes/apiRouter');
+const { constants } = require('./constants');
 const { sequelize } = require('./db/instanse');
 
 const app = express();
 
 app.use(express.json());
-app.use('/phoneImg', express.static('src/static/uploads'));
+app.use(constants.staticPrefix, express.static(constants.staticPath));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: constants.origin,
   }),
 );
 app.use(apiRouter);
