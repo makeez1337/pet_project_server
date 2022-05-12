@@ -102,6 +102,43 @@ class AuthMiddleware {
     req.user = userFromToken;
     next();
   }
+
+  async isUserAdmin(req, res, next) {
+    try {
+      const accessToken = req.get(constants.headerAuthorization);
+
+      if (!accessToken) {
+        next(new ErrorHandler('Token is not valid', 401));
+        return;
+      }
+
+      const { userEmail, userRole } = await tokenService.verifyToken(accessToken);
+      console.log(userRole);
+
+      const userFromToken = await userService.findUserByParams({ email: userEmail });
+      if (!userFromToken) {
+        next(new ErrorHandler('Token is not valid', 401));
+        return;
+      }
+
+      if (userRole !== 'admin') {
+        next(new ErrorHandler('You dont have access for this content', 403));
+        return;
+      }
+
+      const tokenPair = await tokenService.findTokenByParams({ accessToken });
+      if (!tokenPair) {
+        next(new ErrorHandler('Token is not valid', 401));
+        return;
+      }
+
+      req.user = userFromToken;
+      req.accessToken = accessToken;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
