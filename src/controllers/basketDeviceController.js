@@ -32,6 +32,20 @@ class BasketDeviceController {
       next(e);
     }
   }
+
+  async getByUserId(req, res, next) {
+    try {
+      const { userId } = req.params;
+
+      const { id: basketId } = await basketService.findByUserId(userId);
+
+      const response = await basketDeviceService.getByBasketId(basketId);
+
+      res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
