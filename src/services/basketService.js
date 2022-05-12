@@ -4,6 +4,10 @@ class BasketService {
   async createBasket(userId) {
     return Basket.create({ userId });
   }
+
+  async findByUserId(userId) {
+    return Basket.findOne({ where: { userId } });
+  }
 }
 
 module.exports = {
