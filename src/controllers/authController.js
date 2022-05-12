@@ -14,7 +14,8 @@ class AuthController {
         userRole: role,
         userEmail: email,
       });
-      const user = new UserDto(req.body);
+
+      const user = new UserDto({ ...req.body, role });
 
       const userTokenData = await Token.create({ accessToken, refreshToken, userId: id });
       await basketService.createBasket(id);
@@ -34,7 +35,7 @@ class AuthController {
     try {
       const { password: hashedPassword, id, role } = req.user;
       const { email, password } = req.body;
-      const user = new UserDto(req.user);
+      const user = new UserDto({ ...req.user });
 
       await userService.comparePassword(password, hashedPassword);
 
@@ -68,9 +69,9 @@ class AuthController {
 
   async refresh(req, res, next) {
     try {
-      const { email, id, role } = req.user;
+      const { email, id, role } = req.user.dataValues;
 
-      const user = new UserDto(req.user);
+      const user = new UserDto({ ...req.user.dataValues });
 
       const { refreshToken, accessToken } = tokenService.generateTokenPair({
         userEmail: email,
