@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const { appConfig } = require('./config');
 const { apiRouter } = require('./routes/apiRouter');
 const { constants } = require('./constants');
-const { sequelize } = require('./db/instanse');
+const { sequelize } = require('./db');
 
 const app = express();
 
