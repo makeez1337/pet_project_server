@@ -12,6 +12,7 @@ const BasketDevice = sequelize.define('basketDevice', {
   },
   phoneId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
       model: Phone,
       key: 'id',
@@ -19,6 +20,7 @@ const BasketDevice = sequelize.define('basketDevice', {
   },
   basketId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
       model: Basket,
       key: 'id',
