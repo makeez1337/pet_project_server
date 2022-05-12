@@ -1,4 +1,5 @@
 const { basketDeviceService } = require('../services/baksetDeviceService');
+const { basketService } = require('../services/basketService');
 
 class BasketDeviceController {
   async createBasketDevice(req, res, next) {
@@ -7,6 +8,26 @@ class BasketDeviceController {
 
       const basketDevice = await basketDeviceService.createBasketDevice(phoneId, basketId);
       res.json(basketDevice);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async addBasketDevice(req, res, next) {
+    try {
+      const { id: userId } = req.user;
+      const { phoneId } = req.body;
+
+      const { id } = await basketService.findByUserId(userId);
+
+      if (!id) {
+        next(new Error('User doesnt have a basket'));
+        return;
+      }
+
+      const response = await basketDeviceService.createBasketDevice(phoneId, id);
+
+      res.json(response);
     } catch (e) {
       next(e);
     }
