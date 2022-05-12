@@ -113,7 +113,6 @@ class AuthMiddleware {
       }
 
       const { userEmail, userRole } = await tokenService.verifyToken(accessToken);
-      console.log(userRole);
 
       const userFromToken = await userService.findUserByParams({ email: userEmail });
       if (!userFromToken) {
