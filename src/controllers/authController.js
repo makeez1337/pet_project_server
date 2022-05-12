@@ -8,8 +8,8 @@ const { basketService } = require('../services/basketService');
 class AuthController {
   async registration(req, res, next) {
     try {
-      const { id, email } = await userService.createUser(req.body);
-      const { accessToken, refreshToken } = tokenService.generateTokenPair({ userId: id, userEmail: email });
+      const { id, email, role } = await userService.createUser(req.body);
+      const { accessToken, refreshToken } = tokenService.generateTokenPair({ userId: id, userRole: role , userEmail: email });
       const user = new UserDto(req.body);
 
       const userTokenData = await Token.create({ accessToken, refreshToken, userId: id });
