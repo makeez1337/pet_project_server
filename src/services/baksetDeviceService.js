@@ -1,7 +1,7 @@
 const { BasketDevice } = require('../models');
 
 class BaksetDeviceService {
-  createBasketDevice(phoneId, basketId) {
+  async createBasketDevice(phoneId, basketId) {
     return BasketDevice.create({ phoneId, basketId });
   }
 }
