@@ -1,7 +1,7 @@
 const { BasketDevice, Phone } = require('../models');
 const { sequelize } = require('../db');
 
-class BaksetDeviceService {
+class BasketDeviceService {
   async createBasketDevice(phoneId, basketId) {
     return BasketDevice.create({ phoneId, basketId });
   }
@@ -18,8 +18,12 @@ class BaksetDeviceService {
       group: ['phone.id'],
     });
   }
+
+  async deleteOneByParams(phoneId, basketId) {
+    return BasketDevice.destroy({ where: { phoneId, basketId }, limit: 1 });
+  }
 }
 
 module.exports = {
-  basketDeviceService: new BaksetDeviceService(),
+  basketDeviceService: new BasketDeviceService(),
 };
