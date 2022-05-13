@@ -46,6 +46,19 @@ class BasketDeviceController {
       next(e);
     }
   }
+
+  async deleteOneByParams(req, res, next) {
+    try {
+      const { phoneId, userId } = req.body;
+
+      const { id: basketId } = await basketService.findByUserId(userId);
+
+      const response = await basketDeviceService.deleteOneByParams(phoneId, basketId);
+      res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
