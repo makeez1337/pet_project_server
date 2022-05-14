@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        style
+            include style.css
+    body
+        div.phone_info
+            div
+                h1 Ваше замовлення прийняте, очікуйте на доставку
+            div.phone_info
+              each val in response
+                  div.description
+                      div= `Назва: ${val['phone.name']}`
+                      div= `Шт: ${val.count}`
+                      div= `Ціна: ${val.totalPrice}`
+        hr
+        div.allAmount
+            span.allAmount_span= `Загальна вартість: `
+            span.clr_red= `${response.allAmount}`
