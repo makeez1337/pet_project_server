@@ -16,6 +16,7 @@ class BasketDeviceService {
         [sequelize.fn('SUM', sequelize.col('phone.price')), 'totalPrice'],
       ],
       group: ['phone.id'],
+      raw: true,
     });
   }
 
