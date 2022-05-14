@@ -8,7 +8,8 @@ const constants = {
   origin: 'http://localhost:3000',
 
   staticPrefix: '/phoneImg',
-  staticPath: 'src/static/uploads',
+  static: 'static',
+  uploads: 'uploads',
 };
 
 module.exports = {
