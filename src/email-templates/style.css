@@ -1,0 +1,28 @@
+* {
+    background-color: silver;
+    padding: 0;
+    margin: 0;
+}
+
+.phone_info {
+    font-weight: 700;
+}
+
+.description {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.allAmount {
+}
+
+.allAmount_span {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.clr_red {
+    color: red;
+    font-weight: 700;
+    font-size: 23px;
+}
