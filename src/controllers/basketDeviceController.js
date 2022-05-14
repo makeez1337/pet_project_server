@@ -1,5 +1,7 @@
 const { basketDeviceService } = require('../services/baksetDeviceService');
 const { basketService } = require('../services/basketService');
+const { emailService } = require('../services/emailService');
+const { constants } = require('../constants');
 
 class BasketDeviceController {
   async createBasketDevice(req, res, next) {
@@ -55,6 +57,19 @@ class BasketDeviceController {
 
       const response = await basketDeviceService.deleteOneByParams(phoneId, basketId);
       res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async confirmPurchase(req, res, next) {
+    try {
+      const { email } = req.body;
+
+      const response = await basketDeviceService.getByBasketId(8);
+
+      await emailService.sendMail(email, { response });
+      res.json('EMAIL SENDED');
     } catch (e) {
       next(e);
     }
