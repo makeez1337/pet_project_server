@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const { appConfig } = require('./config');
 const { apiRouter } = require('./routes/apiRouter');
@@ -10,8 +11,11 @@ const { sequelize } = require('./db');
 
 const app = express();
 
+app.set('views', path.join(__dirname, 'email-templates'));
+app.set('view engine', 'pug');
+
 app.use(express.json());
-app.use(constants.staticPrefix, express.static(constants.staticPath));
+app.use(constants.staticPrefix, express.static(path.join(__dirname, constants.static, constants.uploads)));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
