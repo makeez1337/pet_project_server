@@ -76,6 +76,17 @@ class PhoneController {
       next(e);
     }
   }
+
+  async getById(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const phone = await phoneService.getById(id);
+      res.json(phone);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
