@@ -14,8 +14,6 @@ class EmailService {
       return prev + next.totalPrice;
     }, 0);
 
-    Object.assign(context, {});
-
     const html = await emailRenderer.render('productsOrder', context);
 
     const transporter = nodemailer.createTransport({
