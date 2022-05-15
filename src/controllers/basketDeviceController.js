@@ -64,9 +64,11 @@ class BasketDeviceController {
 
   async confirmPurchase(req, res, next) {
     try {
-      const { email } = req.body;
+      const { email, userId } = req.body;
 
-      const response = await basketDeviceService.getByBasketId(8);
+      const { id: basketId } = await basketService.findByUserId(userId);
+
+      const response = await basketDeviceService.getByBasketId(basketId);
 
       await emailService.sendMail(email, { response });
       res.json('EMAIL SENDED');
