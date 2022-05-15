@@ -23,6 +23,10 @@ class BasketDeviceService {
   async deleteOneByParams(phoneId, basketId) {
     return BasketDevice.destroy({ where: { phoneId, basketId }, limit: 1 });
   }
+
+  async deleteAllByBasketId(basketId) {
+    return BasketDevice.destroy({ where: { basketId } });
+  }
 }
 
 module.exports = {
