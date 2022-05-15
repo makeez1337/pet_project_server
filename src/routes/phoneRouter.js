@@ -28,7 +28,7 @@ const router = Router();
 router.get('/', phoneController.getAll);
 router.get('/pagination', phoneController.getPhonesPagination);
 router.post('/', authMiddleware.isUserAdmin, upload.single('phoneImg'), phoneController.createPhone);
-router.delete('/', phoneController.deleteById);
+router.delete('/', authMiddleware.isUserAdmin, phoneController.deleteById);
 
 module.exports = {
   phoneRouter: router,
