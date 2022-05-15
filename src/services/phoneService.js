@@ -1,4 +1,4 @@
-const { Phone } = require('../models');
+const { Phone, Brand, Ram, Memory } = require('../models');
 
 const { Op } = require('sequelize');
 
@@ -58,6 +58,10 @@ class PhoneService {
     }
 
     return filterQuery;
+  }
+
+  async getById(id) {
+    return Phone.findOne({ where: { id }, include: [Brand, Ram, Memory] });
   }
 }
 
