@@ -11,7 +11,7 @@ class EmailService {
     });
 
     context.response.allAmount = context.response.reduce((prev, next) => {
-      return prev + next.totalPrice * Number(next.count);
+      return prev + next.totalPrice;
     }, 0);
 
     Object.assign(context, {});
