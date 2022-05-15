@@ -76,6 +76,19 @@ class BasketDeviceController {
       next(e);
     }
   }
+
+  async deleteAllByBasketId(req, res, next) {
+    try {
+      const { userId } = req.body;
+
+      const { id: basketId } = await basketService.findByUserId(userId);
+
+      const response = await basketDeviceService.deleteAllByBasketId(basketId);
+      res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
