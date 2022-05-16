@@ -1,7 +1,7 @@
 const { Router } = require('express');
 
-const { basketDeviceController } = require('../controllers/basketDeviceController');
-const { authMiddleware } = require('../middlewares/authMiddleware');
+const { basketDeviceController } = require('../controllers');
+const { authMiddleware } = require('../middlewares');
 
 const router = Router();
 
