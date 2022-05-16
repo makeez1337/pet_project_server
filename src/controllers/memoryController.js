@@ -2,17 +2,25 @@ const { memoryService } = require('../services/memoryService');
 
 class MemoryController {
   async createMemory(req, res, next) {
-    const { memory } = req.body;
+    try {
+      const { memory } = req.body;
 
-    const response = await memoryService.createMemory(memory);
+      const response = await memoryService.createMemory(memory);
 
-    res.json(response);
+      res.json(response);
+    } catch (e) {
+      next(e);
+    }
   }
 
   async getAll(req, res, next) {
-    const memory = await memoryService.getAll();
+    try {
+      const memory = await memoryService.getAll();
 
-    res.json(memory);
+      res.json(memory);
+    } catch (e) {
+      next(e);
+    }
   }
 }
 
