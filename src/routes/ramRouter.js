@@ -1,10 +1,10 @@
 const { Router } = require('express');
 
-const { ramController } = require('../controllers/ramController');
+const { ramController } = require('../controllers');
 
 const router = Router();
 
-router.get('/', ramController.getAll)
+router.get('/', ramController.getAll);
 router.post('/', ramController.createRam);
 
 module.exports = {
