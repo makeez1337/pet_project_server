@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 
 const { User } = require('../models');
-const { constants } = require('../constants/constants');
-const { ErrorHandler } = require('../error/errorHandler');
+const { constants } = require('../constants');
+const { ErrorHandler } = require('../error');
 
 class UserService {
   async findAllUsers() {
