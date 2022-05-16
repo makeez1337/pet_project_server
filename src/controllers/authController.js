@@ -1,9 +1,6 @@
-const { userService } = require('../services/userService');
 const { Token } = require('../models');
-const { tokenService } = require('../services/tokenService');
-const UserDto = require('../dto/userDto');
-const TokenDto = require('../dto/tokenDto');
-const { basketService } = require('../services/basketService');
+const { userService, tokenService, basketService } = require('../services');
+const { UserDto, TokenDto } = require('../dto');
 
 class AuthController {
   async registration(req, res, next) {
@@ -17,7 +14,7 @@ class AuthController {
 
       const user = new UserDto({ ...req.body, role, id });
 
-      const userTokenData = await Token.create({ accessToken, refreshToken, userId: id });
+      await Token.create({ accessToken, refreshToken, userId: id });
       await basketService.createBasket(id);
 
       res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 });
@@ -58,13 +55,17 @@ class AuthController {
   }
 
   async logout(req, res, next) {
-    const { id } = req.user;
-    const accessToken = req.accessToken;
+    try {
+      const { id } = req.user;
+      const accessToken = req.accessToken;
 
-    await tokenService.deleteTokenPairByParams({ userId: id, accessToken });
+      await tokenService.deleteTokenPairByParams({ userId: id, accessToken });
 
-    res.clearCookie('refreshToken');
-    res.json('OK');
+      res.clearCookie('refreshToken');
+      res.json('OK');
+    } catch (e) {
+      next(e);
+    }
   }
 
   async refresh(req, res, next) {
