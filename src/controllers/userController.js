@@ -1,5 +1,5 @@
-const { userService } = require('../services/userService');
-const { ErrorHandler } = require('../error/errorHandler');
+const { userService } = require('../services');
+const { ErrorHandler } = require('../error');
 
 class UserController {
   async findAllUsers(req, res, next) {
@@ -7,18 +7,6 @@ class UserController {
       const users = await userService.findAllUsers();
 
       res.json(users);
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async findUserByParams(req, res, next) {
-    try {
-      const { id } = req.params;
-
-      const user = await userService.findUserByParams({ id });
-
-      res.json(user);
     } catch (e) {
       next(e);
     }
