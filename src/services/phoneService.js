@@ -1,6 +1,8 @@
 const { Phone, Brand, Ram, Memory } = require('../models');
-
 const { Op } = require('sequelize');
+
+const { sequelize } = require('../db');
+
 
 class PhoneService {
   async createPhone(details) {
@@ -26,6 +28,7 @@ class PhoneService {
     }
 
     const { gte, lte, ...newFilterObj } = filterObj;
+
     return Phone.findAndCountAll({
       limit,
       offset: (page - 1) * limit,
@@ -39,11 +42,14 @@ class PhoneService {
     });
   }
 
-  generateQueryFilter({ ramId, memoryId, brandId, gte, lte }) {
+  async generateQueryFilter({ ramId, memoryId, brandId, gte, lte }) {
     const filterQuery = {};
 
-    filterQuery.gte = Number(gte) || 0;
-    filterQuery.lte = Number(lte) || 45999;
+    const response = await this.minAndMaxPrice();
+    const { minPrice, maxPrice } = response[0];
+
+    filterQuery.gte = Number(gte) || minPrice;
+    filterQuery.lte = Number(lte) || maxPrice;
 
     if (ramId) {
       filterQuery.ramId = ramId.split(',');
@@ -62,6 +68,16 @@ class PhoneService {
 
   async getById(id) {
     return Phone.findOne({ where: { id }, include: [Brand, Ram, Memory] });
+  }
+
+  async minAndMaxPrice() {
+    return Phone.findAll({
+      attributes: [
+        [sequelize.fn('max', sequelize.col('price')), 'maxPrice'],
+        [sequelize.fn('min', sequelize.col('price')), 'minPrice'],
+      ],
+      raw: true,
+    });
   }
 }
 
