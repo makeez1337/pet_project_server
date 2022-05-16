@@ -97,6 +97,23 @@ class PhoneController {
       next(e);
     }
   }
+
+  async updateById(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      let data = req.body;
+      if (req.file) {
+        data = { ...req.body, img: req.file.path };
+        console.log(data);
+      }
+
+      const updatedPhone = await phoneService.updateById(id, data);
+      res.json(updatedPhone);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = {
