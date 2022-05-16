@@ -1,5 +1,6 @@
-const { BasketDevice, Phone } = require('../models');
 const { sequelize } = require('../db');
+
+const { BasketDevice, Phone } = require('../models');
 
 class BasketDeviceService {
   async createBasketDevice(phoneId, basketId) {
