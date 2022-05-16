@@ -26,6 +26,7 @@ const upload = multer({ storage, fileFilter });
 const router = Router();
 
 router.get('/', phoneController.getAll);
+router.get('/minAndMax', phoneController.minAndMaxPrice)
 router.get('/:id', phoneController.getById);
 router.post('/', authMiddleware.isUserAdmin, upload.single('phoneImg'), phoneController.createPhone);
 router.delete('/', authMiddleware.isUserAdmin, phoneController.deleteById);
