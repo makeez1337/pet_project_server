@@ -1,7 +1,4 @@
-const { basketDeviceService } = require('../services/baksetDeviceService');
-const { basketService } = require('../services/basketService');
-const { emailService } = require('../services/emailService');
-const { constants } = require('../constants');
+const { basketDeviceService, basketService, emailService } = require('../services');
 
 class BasketDeviceController {
   async createBasketDevice(req, res, next) {
