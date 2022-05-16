@@ -1,8 +1,7 @@
 const { authValidator } = require('../validators/auth/authValidator');
-const { ErrorHandler } = require('../error/errorHandler');
-const { userService } = require('../services/userService');
-const { constants } = require('../constants/constants');
-const { tokenService } = require('../services/tokenService');
+const { ErrorHandler } = require('../error');
+const { userService, tokenService } = require('../services');
+const { constants } = require('../constants');
 
 class AuthMiddleware {
   isRegistrationValid(req, res, next) {
