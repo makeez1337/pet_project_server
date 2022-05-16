@@ -1,18 +1,26 @@
-const { ramServices } = require('../services/ramServices');
+const { ramServices } = require('../services');
 
 class RamController {
   async createRam(req, res, next) {
-    const { ram } = req.body;
+    try {
+      const { ram } = req.body;
 
-    const response = await ramServices.createRam(ram);
+      const response = await ramServices.createRam(ram);
 
-    res.json(response);
+      res.json(response);
+    } catch (e) {
+      next(e);
+    }
   }
 
   async getAll(req, res, next) {
-    const ram = await ramServices.getAll();
+    try {
+      const ram = await ramServices.getAll();
 
-    res.json(ram);
+      res.json(ram);
+    } catch (e) {
+      next(e);
+    }
   }
 }
 
