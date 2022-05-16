@@ -3,7 +3,6 @@ const { Op } = require('sequelize');
 
 const { sequelize } = require('../db');
 
-
 class PhoneService {
   async createPhone(details) {
     return Phone.create({ ...details });
@@ -78,6 +77,10 @@ class PhoneService {
       ],
       raw: true,
     });
+  }
+
+  async updateById(id, data) {
+    return Phone.update(data, { where: { id: Number(id) } });
   }
 }
 
