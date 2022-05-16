@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const { constants } = require('../../constants/constants');
+const { constants } = require('../../constants');
 
 const commonValidator = {
   emailValidator: Joi.string().pattern(constants.emailRegexp).trim().required(),
