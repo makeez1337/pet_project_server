@@ -1,29 +1,33 @@
 const { phoneService } = require('../services/phoneService');
-const { ErrorHandler } = require('../error/errorHandler');
+const { ErrorHandler } = require('../error');
 
 class PhoneController {
   async createPhone(req, res, next) {
-    const { name, description, memoryId, ramId, processor, camera, price, brandId } = req.body;
+    try {
+      const { name, description, memoryId, ramId, processor, camera, price, brandId } = req.body;
 
-    if (!req.file) {
-      next(new ErrorHandler('You have to download the image'));
-      return;
+      if (!req.file) {
+        next(new ErrorHandler('You have to download the image'));
+        return;
+      }
+
+      const imagePath = req.file.path;
+
+      const phone = await phoneService.createPhone({
+        name,
+        description,
+        memoryId,
+        ramId,
+        processor,
+        camera,
+        price,
+        img: imagePath,
+        brandId,
+      });
+      res.json(phone);
+    } catch (e) {
+      next(e);
     }
-
-    const imagePath = req.file.path;
-
-    const phone = await phoneService.createPhone({
-      name,
-      description,
-      memoryId,
-      ramId,
-      processor,
-      camera,
-      price,
-      img: imagePath,
-      brandId,
-    });
-    res.json(phone);
   }
 
   async getAll(req, res, next) {
@@ -56,22 +60,6 @@ class PhoneController {
 
       await phoneService.deleteById(id);
       res.json('OK');
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async getPhonesPagination(req, res, next) {
-    try {
-      const { limit, page, ...filterObj } = req.body;
-
-      const { count, rows } = await phoneService.getPhonesPagination(limit, page, filterObj);
-      res.json({
-        page,
-        perPage: limit,
-        count,
-        rows,
-      });
     } catch (e) {
       next(e);
     }
