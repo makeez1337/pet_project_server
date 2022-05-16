@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const { memoryController } = require('../controllers/memoryController');
+const { memoryController } = require('../controllers');
 
 const router = Router();
 
