@@ -32,7 +32,7 @@ class PhoneController {
       limit = limit || 6;
       page = page || 1;
 
-      const filterQuery = phoneService.generateQueryFilter(req.query);
+      const filterQuery = await phoneService.generateQueryFilter(req.query);
 
       const { rows, count } = await phoneService.getPhonesPagination(limit, page, { ...filterQuery });
       const perPage = rows.length;
@@ -83,6 +83,16 @@ class PhoneController {
 
       const phone = await phoneService.getById(id);
       res.json(phone);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async minAndMaxPrice(req, res, next) {
+    try {
+      const response = await phoneService.minAndMaxPrice();
+
+      res.json(response);
     } catch (e) {
       next(e);
     }
