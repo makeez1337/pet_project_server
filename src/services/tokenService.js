@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const { Token } = require('../models');
-const { ErrorHandler } = require('../error/errorHandler');
+const { ErrorHandler } = require('../error');
 
 class TokenService {
   generateTokenPair(payload) {
