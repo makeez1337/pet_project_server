@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const { Ram, Memory, BasketDevice, Brand, Phone, User, Token, Basket } = require('./models');
 
 const { appConfig } = require('./config');
 const { apiRouter } = require('./routes/apiRouter');
