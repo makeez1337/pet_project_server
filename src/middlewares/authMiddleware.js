@@ -37,17 +37,21 @@ class AuthMiddleware {
   }
 
   async isUserExists(req, res, next) {
-    const { email } = req.body;
+    try {
+      const { email } = req.body;
 
-    const user = await userService.findUserByParams({ email });
+      const user = await userService.findUserByParams({ email });
 
-    if (!user) {
-      next(new ErrorHandler('Email or password is not valid', 401));
-      return;
+      if (!user) {
+        next(new ErrorHandler('Email or password is not valid', 401));
+        return;
+      }
+
+      req.user = user.dataValues;
+      next();
+    } catch (e) {
+      next(e);
     }
-
-    req.user = user.dataValues;
-    next();
   }
 
   async checkAccessToken(req, res, next) {
@@ -83,23 +87,27 @@ class AuthMiddleware {
   }
 
   async checkRefreshToken(req, res, next) {
-    const { refreshToken } = req.cookies;
+    try {
+      const { refreshToken } = req.cookies;
 
-    if (!refreshToken) {
-      next(new ErrorHandler('Token is not valid', 401));
-      return;
+      if (!refreshToken) {
+        next(new ErrorHandler('Token is not valid', 401));
+        return;
+      }
+
+      const { userEmail } = await tokenService.verifyToken(refreshToken, 'refresh');
+      const userFromToken = await userService.findUserByParams({ email: userEmail });
+
+      if (!userFromToken) {
+        next(new ErrorHandler('Token is not valid', 401));
+        return;
+      }
+
+      req.user = userFromToken;
+      next();
+    } catch (e) {
+      next(e);
     }
-
-    const { userEmail } = await tokenService.verifyToken(refreshToken, 'refresh');
-    const userFromToken = await userService.findUserByParams({ email: userEmail });
-
-    if (!userFromToken) {
-      next(new ErrorHandler('Token is not valid', 401));
-      return;
-    }
-
-    req.user = userFromToken;
-    next();
   }
 
   async isUserAdmin(req, res, next) {
